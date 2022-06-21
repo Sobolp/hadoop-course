@@ -2,6 +2,7 @@
 
 # check the source
 aws s3 ls s3://spark-luxoft
+aws s3 ls s3://eas-015-hadoop
 
 
 # prepare the target

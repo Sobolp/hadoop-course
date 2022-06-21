@@ -640,7 +640,7 @@ FROM employee a
                    ON a.name = b.name
 WHERE b.name IS NULL;
 
-4. INSERT EXPORT IMPORT
+INSERT EXPORT IMPORT
    --Insert specified columns
 CREATE TABLE emp_simple( -- Create a test table only has primary types
                            name string,
