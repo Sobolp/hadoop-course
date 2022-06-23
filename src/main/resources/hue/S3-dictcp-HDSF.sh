@@ -5,7 +5,7 @@ echo "CURR DATE D1"
 echo $cur_date_d1
 
 echo "CREATING NEW FOLDER"
-hdfs dfs -mkdir  /user/curr_date=${cur_date_d1}
+hdfs dfs -mkdir  /user/vopolski/raw/curr_date=${cur_date_d1}
 
 
 echo "DOWNLOADING DATA NEW FOLDER"
