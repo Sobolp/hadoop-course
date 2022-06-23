@@ -14,6 +14,7 @@ hdfs dfs -mkdir /user/vopolskiy_csv
 
 hdfs dfs -ls /user/vopolskiy_csv
 
+hadoop distcp s3://hadoop-luxoft/taxi-source/4c8617af-d268-46d0-bfe1-10f069ed7b9d-c000.csv /user/vopolski/raw/
 
 
 # start the command

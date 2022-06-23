@@ -25,11 +25,11 @@ hdfs dfs -chmod 777 /user
 
 hdfs dfs -ls /
 
-
-Hue	http://ec2-3-250-183-133.eu-west-1.compute.amazonaws.com:8888/
+Hue	http://ec2-46-137-26-60.eu-west-1.compute.amazonaws.com:8888/
 admin/!QAz3edc
 
-Resource Manager	http://ec2-3-250-183-133.eu-west-1.compute.amazonaws.com:8088/
+Resource Manager	http://ec2-46-137-26-60.eu-west-1.compute.amazonaws.com:8088/
 
-HDFS Name Node	http://ec2-3-250-183-133.eu-west-1.compute.amazonaws.com:9870/
-Spark History Server	http://ec2-3-250-183-133.eu-west-1.compute.amazonaws.com:18080/
+HDFS Name Node	http://ec2-46-137-26-60.eu-west-1.compute.amazonaws.com:9870/
+Spark History Server	http://ec2-46-137-26-60.eu-west-1.compute.amazonaws.com:18080/
+Resource Manager	http://ec2-46-137-26-60.eu-west-1.compute.amazonaws.com:8088/
