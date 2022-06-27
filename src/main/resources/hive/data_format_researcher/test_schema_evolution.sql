@@ -12,6 +12,7 @@ stored as orc;
 insert into orc_test partition(col5='2020-01-01') values(1,2,3,4);
 insert into orc_test partition(col5='2021-01-01') values(5,6,7,8);
 
+select * from orc_test;
 
 ALTER TABLE orc_test SET TBLPROPERTIES('EXTERNAL'='TRUE');
 DROP TABLE orc_test;

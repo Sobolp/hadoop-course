@@ -89,7 +89,7 @@ CREATE TABLE employee (
                           skills_score MAP<string,int>,
                           depart_title MAP<STRING,ARRAY<STRING>>
 )
-    ROW FORMAT DELIMITED
+ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '|'
 COLLECTION ITEMS TERMINATED BY ','
 MAP KEYS TERMINATED BY ':'

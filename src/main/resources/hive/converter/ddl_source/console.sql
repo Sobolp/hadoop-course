@@ -2,11 +2,15 @@ set hive.msck.repair.batch.size=1;
 set hive.msck.path.validation=ignore;
 
 
-create schema if not exist taxi_facts;
+create schema if not exists taxi_facts_vo;
 
-drop table if exists taxi_facts.taxi_facts;
+drop table if exists taxi_facts_vo.taxi_facts;
 
-CREATE EXTERNAL TABLE IF NOT EXISTS taxi_facts.taxi_facts (
+-- CREATE TABLE IF NOT EXISTS taxi_facts.taxi_facts ( managed
+--
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS taxi_facts_vo.taxi_facts (
     VendorID  int,
     tpep_pickup_datetime  string,
     tpep_dropoff_datetime string,
@@ -31,14 +35,14 @@ FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 LOCATION '/user/vopolski/raw/';
 
-ALTER TABLE taxi_facts.taxi_facts SET TBLPROPERTIES ('skip.header.line.count'='1');
+ALTER TABLE taxi_facts_vo.taxi_facts SET TBLPROPERTIES ('skip.header.line.count'='1');
 
-SHOW PARTITIONS taxi_facts.taxi_facts;
+SHOW PARTITIONS taxi_facts_vo.taxi_facts;
 
 set hive.msck.repair.batch.size=1;
 set hive.msck.path.validation=ignore;
 
-msck repair table taxi_facts.taxi_facts;
+msck repair table taxi_facts_vo.taxi_facts;
 analyze table taxi_facts.taxi_facts partition(curr_date) compute statistics noscan;
 
 select count(*) from taxi_facts.taxi_facts;
