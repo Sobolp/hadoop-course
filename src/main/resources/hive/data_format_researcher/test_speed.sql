@@ -95,8 +95,6 @@ CREATE EXTERNAL TABLE vaopolski.london_crime_by_lsoa_parquet(
     value int,
     year int,
     month int)
-ROW FORMAT DELIMITED
-    FIELDS TERMINATED BY ','
 STORED AS PARQUET
 location '/user/vopolskiy/parquet/';
 

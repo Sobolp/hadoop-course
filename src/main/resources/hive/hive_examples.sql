@@ -76,13 +76,7 @@ Wei|1002|107|7000|part|2010-04-03
 Yun|1002|108|5500|full|2014-01-29
 Richard|1002|109|8000|full|2013-09-01
 
-Запустить beeline
-beeline -u "jdbc:hive2://localhost:10000/default" --silent=true
-Data definition and description
-1. Data Types
-
-Создать таблицу
-CREATE TABLE employee (
+CREATE TABLE hivetest.employee (
                           name string,
                           work_place ARRAY<string>,
                           gender_age STRUCT<gender:string,age:int>,
@@ -99,18 +93,26 @@ STORED AS TEXTFILE;
 !table employee
 !column employee
 
+
+
 Грузим данные
-LOAD DATA LOCAL INPATH 'home/employee.txt' OVERWRITE INTO TABLE employee;
+LOAD DATA INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
+LOAD DATA LOCAL INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
+
+
 
 Запускаем запросы
 
 --Query the whole table
-SELECT * FROM employee;
+SELECT * FROM hivetest.employee;
 
 --Query the ARRAY in the table
 SELECT work_place FROM employee;
 
-SELECT work_place[0] AS col_1, work_place[1] AS col_2, work_place[2] AS col_3 FROM employee;
+SELECT work_place[0] AS col_1,
+       work_place[1] AS col_2,
+       work_place[2] AS col_3
+FROM employee;
 
 --Query the STRUCT in the table
 SELECT gender_age FROM employee;
@@ -142,6 +144,9 @@ CREATE DATABASE hivetest;
 
 --Create database and checking if the database already exists.
 CREATE DATABASE IF NOT EXISTS hivetest;
+    -- mySql
+    -- create a folder in warehose
+
 
 --Create database with location, comments, and metadata information
 CREATE DATABASE IF NOT EXISTS hivetest
@@ -171,7 +176,7 @@ ALTER DATABASE hivetest SET OWNER user cloudera;
 3. Table creation
 
 --Create internal table and load the data
-CREATE TABLE IF NOT EXISTS employee_internal (
+CREATE TABLE IF NOT EXISTS hivetest.employee_internal (
                                                  name string,
                                                  work_place ARRAY<string>,
                                                  gender_age STRUCT<gender:string,age:int>,
@@ -185,7 +190,7 @@ CREATE TABLE IF NOT EXISTS employee_internal (
     MAP KEYS TERMINATED BY ':'
     STORED AS TEXTFILE;
 
-LOAD DATA LOCAL INPATH 'home/employee.txt' OVERWRITE INTO TABLE employee_internal;
+LOAD DATA LOCAL INPATH 'home/employee.txt' OVERWRITE INTO TABLE hivetest.employee_internal;
 
 --Create external table and load the data
 CREATE EXTERNAL TABLE IF NOT EXISTS employee_external (
@@ -223,8 +228,8 @@ CREATE TABLE ctas_employee AS SELECT * FROM employee_external;
 
 --Create Table As SELECT (CTAS) with Common Table Expression (CTE)
 CREATE TABLE cte_employee AS
-WITH r1 AS (SELECT name FROM r2 WHERE name = 'Michael'),
-     r2 AS (SELECT name FROM employee WHERE gender_age.gender= 'Male'),
+WITH r1 AS (SELECT name FROM r2 WHERE name = 'Michael'), -- make a flat structure
+     r2 AS (SELECT name FROM employee WHERE gender_age.gender= 'Male'), -- make dedublicstion
      r3 AS (SELECT name FROM employee WHERE gender_age.gender= 'Female')
 SELECT * FROM r1 UNION ALL select * FROM r3;
 

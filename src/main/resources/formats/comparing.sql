@@ -111,7 +111,7 @@ from z
 group by month, year;
 
 
-CREATE EXTERNAL TABLE london_crime_by_lsoa_orc(
+CREATE TABLE london_crime_by_lsoa_orc(
         lsoa_code string,
         borough string,
         major_category string,
@@ -128,7 +128,7 @@ CREATE EXTERNAL TABLE london_crime_by_lsoa_orc(
 insert overwrite table london_crime_by_lsoa_orc
 select * from london_crime_by_lsoa_csv;
 
-writing   reading   querry   size
+            writing   reading   querry   size
 csv                   22.70     36.53    889.6 M
 avro         48.72    35.76     48.96    912.4 M
 parquet      45.50    6.94      21.05    71.7 M
