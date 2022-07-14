@@ -20,12 +20,25 @@ public class UnixTimestampWithOffsetUDF extends UDF {
             LocalDateTime ldt = LocalDateTime.parse(dts, dateTimeFormatter);
             ZoneOffset offset = dateTimeFormatter.getZone().getRules().getOffset(ldt);
             long value = ldt.toEpochSecond(offset);
+
             TimeZone aDefault = TimeZone.getDefault();
+            String defaultID = aDefault.getID();
+            int offset1 = aDefault.getOffset(1000);
+
+            DateTimeFormatter dateTimeFormatterNew = DateTimeFormatter
+                    .ofPattern("yyyy-MM-dd HH:mm:ss")
+                    .withZone(ZoneOffset.UTC);
+            String finalResult = dateTimeFormatter.format(LocalDateTime.ofEpochSecond(value, 0, ZoneOffset.UTC));
+
 
             return new LongWritable (value);
         }
         catch (Exception e){
             return null;
         }
+    }
+    public static void main(String[] args) {
+        UnixTimestampWithOffsetUDF t1 = new UnixTimestampWithOffsetUDF();
+        t1.evaluate("2020-01-01 01:01:01", "UTC");
     }
 }

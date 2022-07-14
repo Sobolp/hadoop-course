@@ -1,29 +1,3 @@
-Занятие 5. SQL-доступ к данным. Apache Hive.
-Команды ниже применимы для дистрибутива CDH.
-
-
-hdfs fsck vadopolski/london_crime_by_lsoa.csv -files -blocks -locations
-
-aws s3 ls s3://spark-luxoft
-
-hadoop distcp s3n://bucketname/directoryname/london_crime_by_lsoa.csv /user/myuser/mydirectory/
-hadoop distcp s3n://bucketname/directoryname/london_crime_by_lsoa.csv /user/myuser/mydirectory/
-
-hadoop distcp .AmazonS3Exception: Access Denied
-
-
-hadoop distcp s3://spark-luxoft/london_crimes/london_crime_by_lsoa.csv /vadopolski/
-
-s3://spark-luxoft/london_crimes/
-
-
-
-С минимальными усилиями возможно адаптировать для GCP Dataproc (Managed Hadoop).
-
-Развернуть CDH. Инструкция с предыдущего занятия. Или официальная документация.
-
-В директории /home создать и наполнить файлы:
-
 vi employee.txt
 Michael|Montreal,Toronto|Male,30|DB:80|Product:Developer^DLead
 Will|Montreal|Male,35|Perl:85|Product:Lead,Test:Lead
@@ -95,13 +69,14 @@ STORED AS TEXTFILE;
 
 
 
-Грузим данные
+1. Complex type
+
+-- load data from HDFS
 LOAD DATA INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
+
+-- load data from local FS
 LOAD DATA LOCAL INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
 
-
-
-Запускаем запросы
 
 --Query the whole table
 SELECT * FROM hivetest.employee;
@@ -144,8 +119,8 @@ CREATE DATABASE hivetest;
 
 --Create database and checking if the database already exists.
 CREATE DATABASE IF NOT EXISTS hivetest;
-    -- mySql
-    -- create a folder in warehose
+    -- create row in metastore mySql
+    -- create a folder in warehouse
 
 
 --Create database with location, comments, and metadata information
@@ -194,11 +169,11 @@ LOAD DATA LOCAL INPATH 'home/employee.txt' OVERWRITE INTO TABLE hivetest.employe
 
 --Create external table and load the data
 CREATE EXTERNAL TABLE IF NOT EXISTS employee_external (
-name string,
-work_place ARRAY<string>,
-gender_age STRUCT<gender:string,age:int>,
-skills_score MAP<string,int>,
-depart_title MAP<STRING,ARRAY<STRING>>
+    name string,
+    work_place ARRAY<string>,
+    gender_age STRUCT<gender:string,age:int>,
+    skills_score MAP<string,int>,
+    depart_title MAP<STRING,ARRAY<STRING>>
 )
 COMMENT 'This is an external table'
 ROW FORMAT DELIMITED
@@ -210,13 +185,15 @@ LOCATION '/user/cloudera/employee';
 
 LOAD DATA LOCAL INPATH 'home/employee.txt' OVERWRITE INTO TABLE employee_external;
 
---Temporary tables
+--Temporary tables (live only in session)
+--In most cases you can use a normal table with DROP in the end of the script
+--Or just use WITH operator
 CREATE TEMPORARY TABLE IF NOT EXISTS tmp_emp1 (
-name string,
-work_place ARRAY<string>,
-gender_age STRUCT<gender:string,age:int>,
-skills_score MAP<string,int>,
-depart_title MAP<STRING,ARRAY<STRING>>
+    name string,
+    work_place ARRAY<string>,
+    gender_age STRUCT<gender:string,age:int>,
+    skills_score MAP<string,int>,
+    depart_title MAP<STRING,ARRAY<STRING>>
 );
 
 CREATE TEMPORARY TABLE tmp_emp2 AS SELECT * FROM tmp_emp1;
@@ -245,6 +222,7 @@ CREATE TABLE empty_like_employee LIKE employee_internal;
 --Check row count for both tables
 SELECT COUNT(*) AS row_cnt FROM empty_ctas_employee;
 SELECT COUNT(*) AS row_cnt FROM empty_like_employee;
+
 4. Table description
    --Show tables
    SHOW TABLES;
@@ -283,7 +261,7 @@ ALTER TABLE cte_employee_backup SET TBLPROPERTIES ('comment' = 'New comments');
 --Alter table delimiter through SerDe properties
 ALTER TABLE employee_internal SET SERDEPROPERTIES ('field.delim' = '$');
 
---Alter Table File Format
+--Alter Table File Format (other formats https://cwiki.apache.org/confluence/display/Hive/FileFormats)
 ALTER TABLE employee_internal SET FILEFORMAT RCFILE;
 
 --Alter Table Location
@@ -294,6 +272,15 @@ ALTER TABLE employee_internal ENABLE NO_DROP;
 ALTER TABLE employee_internal DISABLE NO_DROP;
 ALTER TABLE employee_internal ENABLE OFFLINE;
 ALTER TABLE employee_internal DISABLE OFFLINE;
+
+-- Protection on data can be set at either the table or partition level.
+-- Enabling NO_DROP prevents a table from being dropped.
+-- Enabling OFFLINE prevents the data in a table or partition from being queried, but the metadata can still be accessed.
+--
+-- If any partition in a table has NO_DROP enabled, the table cannot be dropped either.
+-- Conversely, if a table has NO_DROP enabled then partitions may be dropped, but with NO_DROP CASCADE partitions
+-- cannot be dropped either unless the drop partition command specifies IGNORE PROTECTION.
+
 
 --Alter Table Concatenate to merge small files into larger files
 --convert to the file format supported
@@ -349,19 +336,17 @@ FIELDS TERMINATED BY '|'
 COLLECTION ITEMS TERMINATED BY ','
 MAP KEYS TERMINATED BY ':';
 
-folder 2022 -> 01, 02, 03,
 
+sleect * from employee_partitioned; -- read all partitions
+sleect * from employee_partitioned where Year = 2022 and Month = 05 and Month = 04;  -- read only one partitions
 
-sleect * from employee_partitioned - read all parttions
-sleect * from employee_partitioned where Year = 2022 and Month = 05 and Month = 04
+create view employee_partitioned_v from employee_partitioned;
 
-create view employee_partitioned_v from employee_partitioned
-
-select * from employee_partitioned_v where Year = 2022 and Month = 05 and Month = 04 -- read all data
+select * from employee_partitioned_v where Year = 2022 and Month = 05 and Month = 04 -- be carefully read all data
 
 
 --Check partition table structure
-    DESC employee_partitioned;
+DESC employee_partitioned;
 
 --Show partitions
 SHOW PARTITIONS employee_partitioned;
