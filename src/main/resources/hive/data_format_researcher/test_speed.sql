@@ -82,7 +82,7 @@ group by month, year;
 csv                   15.402    25       889.6
 avro         52.207   24.461    33.512   912.4
 parquet      28.957   10.211    26.638   69.5
-orc
+orc          26.675    9.958    56.011   84.5
 
 
 
@@ -139,6 +139,8 @@ select
     max(n)
 from z
 group by month, year;
+
+
 with z as (select *,
                   ROW_NUMBER() OVER(PARTITION BY MONTH, YEAR ORDER BY minor_category) n
            from vaopolski.london_crime_by_lsoa_avro)
@@ -217,3 +219,5 @@ hdfs dfs -du -h -s /user/vaopolskiy_parquet/
 hdfs dfs -du -h -s /user/vaopolskiy_avro/
 
 
+
+hdfs dfs -ls -h /user/vkripakov/silver/

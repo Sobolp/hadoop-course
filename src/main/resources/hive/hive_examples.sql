@@ -50,12 +50,26 @@ Wei|1002|107|7000|part|2010-04-03
 Yun|1002|108|5500|full|2014-01-29
 Richard|1002|109|8000|full|2013-09-01
 
+
+
+    root
+ |-- name: struct (nullable = true)
+ |    |-- firstname: string (nullable = true)
+ |    |-- middlename: string (nullable = true)
+ |    |-- lastname: string (nullable = true)
+ |-- id: string (nullable = true)
+ |-- gender: string (nullable = true)
+ |-- salary: integer (nullable = true)
+
+
+
 CREATE TABLE hivetest.employee (
                           name string,
                           work_place ARRAY<string>,
                           gender_age STRUCT<gender:string,age:int>,
                           skills_score MAP<string,int>,
-                          depart_title MAP<STRING,ARRAY<STRING>>
+                          depart_title MAP<STRING,ARRAY<STRING>>,
+                          work_contractor ARRAY<STRUCT<gender:string,age:int>>
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '|'
@@ -64,15 +78,18 @@ MAP KEYS TERMINATED BY ':'
 STORED AS TEXTFILE;
 
 Проверить таблицу
-!table employee
+!table hivetest.employee
 !column employee
 
+
+set hive.cli.print.current.db=true;
 
 
 1. Complex type
 
 -- load data from HDFS
-LOAD DATA INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
+LOAD DATA INPATH '/user/vopolski/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
+
 
 -- load data from local FS
 LOAD DATA LOCAL INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employee;
@@ -82,7 +99,7 @@ LOAD DATA LOCAL INPATH '/user/employee.txt' OVERWRITE INTO TABLE hivetest.employ
 SELECT * FROM hivetest.employee;
 
 --Query the ARRAY in the table
-SELECT work_place FROM employee;
+SELECT work_place FROM hivetest.employee;
 
 SELECT work_place[0] AS col_1,
        work_place[1] AS col_2,
@@ -146,6 +163,7 @@ DROP DATABASE IF EXISTS hivetest;
 --Drop database with CASCADE
 DROP DATABASE IF EXISTS hivetest CASCADE;
 
+--     ????
 ALTER DATABASE hivetest SET OWNER user cloudera;
 
 3. Table creation
@@ -945,3 +963,43 @@ WITH r1 AS (SELECT name FROM r2 WHERE name = 'Michael'),
      r2 AS (SELECT name FROM employee WHERE gender_age.gender= 'Male'),
      r3 AS (SELECT name FROM employee WHERE gender_age.gender= 'Female')
 SELECT * FROM r1 UNION ALL select * FROM r3;
+
+
+
+CREATE TABLE employee_flat AS
+SELECT
+    name
+    place,
+    gender_age.gender,
+    gender_age.age
+    FROM employee
+             LATERAL VIEW explode(work_place) adTable AS place;
+
+
+
+
+SELECT
+    pageid,
+    adid
+FROM pageAds
+    LATERAL VIEW explode(adid_list) adTable AS adid;
+
+
+SELECT pageid, adid
+FROM pageAds LATERAL VIEW explode(adid_list) adTable AS adid;
+
+
+
+
+SELECT myCol1, col2 FROM baseTable
+    LATERAL VIEW explode(col1) myTable1 AS myCol1;
+
+
+
+SELECT k, v FROM employee
+    LATERAL VIEW explode(depart_title) myTable1 AS k,v;
+
+
+SELECT myCol1, myCol2 FROM baseTable
+    LATERAL VIEW explode(col1) myTable1 AS myCol1
+    LATERAL VIEW explode(col2) myTable2 AS myCol2;

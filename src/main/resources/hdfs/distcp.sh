@@ -14,7 +14,11 @@ hdfs dfs -mkdir /user/vopolskiy_csv
 
 hdfs dfs -ls /user/vopolskiy_csv
 
-hadoop distcp s3://hadoop-luxoft/taxi-source/4c8617af-d268-46d0-bfe1-10f069ed7b9d-c000.csv /user/vopolski/raw/
+
+hadoop distcp s3://hadoop-luxoft/simple_source/employees_headers.csv /user/vopolski
+
+
+hadoop distcp -D dfs.replication=2 -update s3://test-source-for-hdfs/london_crimes/london_crime_by_lsoa.csv /user/vopolski
 
 
 # start the command
@@ -56,6 +60,8 @@ hdfs fsck test/london_crime_by_lsoa.csv -files -blocks
 hdfs fsck /user/vopolski/raw/curr_date=2021-6-23/4c8617af-d268-46d0-bfe1-10f069ed7b9d-c000.csv -files -blocks
 hdfs fsck /user/vopolskiy/input/london_crime_by_lsoa.csv -files -blocks
 
+hdfs fsck /hdfs/directory/employee/employee.txt -files -blocks
 
+aws s3 sync s3://spark-luxoft s3://test-source-for-hdfs
 
 
