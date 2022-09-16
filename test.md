@@ -71,15 +71,27 @@
     3. Avoid to use old version of Hive
 
 13. Select right way to optimise join
+
 14. What is Z-ordering
+
 15. What is advantages of using Delta Lake formats
+
 16. Select the right way to work with avro formats
+
 17. Select the right way to move job between que que
+
 18. What Are The Additional Benefits Yarn optimisation?
+
 19. What Are The Scheduling Policies Available In Yarn?
+
 20. HDFS checking the corrupted blocks
+
 21. Select right command to change file in HDFS
+
 22. What the command truncate will do with HDFS
+
 23. Select the right way to build acknowledgements in write path
+
 24. What is the Journal Node
+
 25. What is Federtion
