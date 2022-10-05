@@ -70,28 +70,92 @@
     2. Avoid to use memory
     3. Avoid to use old version of Hive
 
-13. Select right way to optimise join
+13. Select right way to optimize join with multiple tables
+    1. Change the order of join
+    2. Use hints “optimize“ join
+    3. Change set of the keys
 
-14. What is Z-ordering
+14. What is Z-ordering in delta lake
+    1. Technique to colocate related information in the same set of files
+    2. Technique to coalesce small files into larger ones
+    3. Type of JVM Garbage collector
 
-15. What is advantages of using Delta Lake formats
+15. What is advantages of using Delta Lake formats (choose several)
+    1. Caching
+    2. Time travel
+    3. Merging datasets
+    4. Row oriented
+    5. Schema evolution
+    6. Human readable
 
-16. Select the right way to work with avro formats
+16. Select the right case to use avro formats
+    1. Kafka messaging
+    2. HDFS writing of result of batch query
+    3. Work in Microsoft Excel
+    4. Write programming code in Avro language
 
-17. Select the right way to move job between que que
+17. Select the right way to move job between que que in yarn
+    1. yarn movetoqueue <app_id>
+    2. yarn application -movetoqueue <app_id> -queue <queue_name>
+    3. drag application to target que
 
-18. What Are The Additional Benefits Yarn optimisation?
+18. What Are The Additional Benefits of using Yarn? (choose several)
+    1. Good integration with Hadoop ecosystem
+    2. Spark Dynamic Allocation Resources 
+    3. Yarn provide the yarn distributed file system
+    4. Yarn allows to doubled resources in a cluster
 
 19. What Are The Scheduling Policies Available In Yarn?
+    1. FIFO scheduler
+    2. Capacity scheduler
+    3. Exponential scheduler
+    3. Fair scheduler
 
-20. HDFS checking the corrupted blocks
+20. Choose the right way to check the corrupted blocks in HDFS
+    1. hdfs fsck -locations -blocks -files
+    2. hdfs dfs -locations -blocks -files
+    3. ls -la 
+    2. check fsck -files
 
 21. Select right command to change file in HDFS
+    1. append 
+    2. compress
+    3. truncate
+    3. edit
 
-22. What the command truncate will do with HDFS
+22. What the command truncate will do with files in HDFS
+    1. Cut the tail after the size which is a parameter
+    2. Re distribute files into several partitions
+    3. Compress file to max formats
+    4. Add the data to file
 
-23. Select the right way to build acknowledgements in write path
+23. Select the right way to change replication factor in write path
+    1. hdfs fsck -change -RF 2 /user/hdfs/test
+    2. hdfs dfs -setrep -R 2 /user/hdfs/test
+    3. Its impossible to change replication factor 
 
-24. What is the Journal Node
+24. What is the Journal Node 
+    1. Special nodes with newspapers data
+    2. Special node which receive changes from name node
+    3. Special node which have configuration of name and data nodes
 
-25. What is Federtion
+25. What is Federation (choose several)
+    1. Concepts which allows to resolve NameNode single point of failure issue
+    2. NameNode keeps track of each and every file and block in memory
+    3. Has pair of namenodes active-stand by configuration
+
+26. The analytics team at an e-commerce company uses Apache Hive on Amazon EMR. Several analysts have reported sub-par performance for the cluster during the morning peak load hours when 95% of the daily queries are executed by the analysts. The analytics team has also noted that HDFS's (Hadoop Distributed File System) usage never surpasses 10%.
+which of the following solutions would you recommend to resolve these performance issues?
+    1. Set up instance group configurations for core and task nodes. Leverage the CloudWatch YARNMemoryAvailablePercentage metric to configure automatic scaling policies to scale out/scale in the instance groups
+    2. Set up instance group configurations for core and task nodes. Leverage the CloudWatch CapacityRemainingGB metric to configure automatic scaling policies to scale out/scale in the instance groups
+    3. Set up instance fleet configurations for core and task nodes. Leverage the CloudWatch CapacityRemainingGB metric to configure automatic scaling policies to scale out/scale in the instance fleet
+    4. Set up instance fleet configurations for core and task nodes. Leverage the CloudWatch YARNMemoryAvailablePercentage metric to configure automatic scaling policies to scale out/scale in the instance fleet 
+
+27. A company uses two AWS accounts for accessing various AWS services. The analytics team has just configured an Amazon S3 bucket in AWS account A for writing data from the Amazon Redshift cluster provisioned in AWS account B. The team has noticed that the files created in the S3 bucket using UNLOAD command from the Redshift cluster are not accessible to the bucket owner user of the AWS account A that created the S3 bucket.
+What could be the reason for this denial of permission for resources belonging to the same AWS account?
+    1. When two different AWS accounts are accessing an 53 bucket, both the accounts need to share the bucket policies, explicitly defining the actions possible for each account. An erroneous policy can lead to such permission failures
+    2. When objects are uploaded to an 53 bucket from a different AWS account, the 53 bucket owner will get implicit permissions to access these objects. It is an upload error that can be fixed by providing manual access from AWS console
+    3. The owner of an 53 bucket has implicit access to all objects in his bucket. Permissions are set on objects after they are completely copied to the target location. Since the owner is unable to access the uploaded files, it is possible that the write operation is still in progress
+    4. By default, an 53 object is owned by the AWS account that uploaded it. So the 53 bucket owner will not implicitly have access to the objects written by the Redshift cluster 
+
+28. 
