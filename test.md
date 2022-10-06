@@ -158,4 +158,71 @@ What could be the reason for this denial of permission for resources belonging t
     3. The owner of an 53 bucket has implicit access to all objects in his bucket. Permissions are set on objects after they are completely copied to the target location. Since the owner is unable to access the uploaded files, it is possible that the write operation is still in progress
     4. By default, an 53 object is owned by the AWS account that uploaded it. So the 53 bucket owner will not implicitly have access to the objects written by the Redshift cluster 
 
-28. 
+28. What is an object storage advantages (choose several)
+    1. Use cases "cold" storage and backup
+    2. Has a copy of data according with replication factor
+    3. Stores all data as objects
+    4. Has a name node for coordination
+    5. Data acces via iSCSI
+    
+29. Which feature allows enables users to recover objects that are deleted or overwriteen by accident
+    1. Versioning
+    2. Bucket
+    3. Uniform Resource Identifier
+    4. RECYCLE
+30. What is URI in S3
+    1. Unique address of each resource data 
+    2. Special tool for working with files
+    3. Addres of client in amazon of S3 service
+    
+31. How many objects we will have in S3 storage and metadata memory need if the total size of objects will be 60 PB. 20% of small objects less than 1MB, 60% of medium objects 1 ~ 64 MB, 20% of large objects. Each object need 1KB memory size.
+    1. 0.68 millions objects and 0.68 TB
+    2. 0.99 billions objects and 0.99 TB
+    3. 0.68 billion objects  and 0.68 TB
+    4. 0.99 millions objects and 0.99 TB
+32. What is a properties of object storages (choose several)
+    1. Object immutability
+    2. Key-value store
+    3. Transactional processing
+    4. Write once, read many times
+33. What are not components of S3 object storage (choose several)
+    1. Load balancer
+    2. API service
+    3. Name node
+    4. Identity and access  management (IAM)
+    5. Data Store
+    6. Journal node
+    7. Metadata store
+34. Which information heartbeat message includes
+    1. How many disk drives does the data nodes manage?
+    2. Which model of CPU is installed on data node
+    3. How much data is stored to CPU
+    4. The samples of payload data
+35. How to configure replication strategy in S3 
+    1. Creating replication rule
+    2. In the configs of Data Nodes
+    3. When writing data to S3 in API
+36. What is trade off between the consistency and latency in S3 replication (choose several)
+    1. Best consistency highest latency
+    2. Worst consistency lowest latency
+    3. Best consistency lowest latency
+    4. Worst consistency highest latency
+37. Select the right way to solve problem with small objects
+    1. Small objects are automatically stored in one big file
+    2. Small objects are automatically deleted
+    3. Small objects are automatically stored in 
+38. Which info is needed to lookup object in one big file (choose several)
+    1. start_offset *
+    2. finish_offset
+    3. object_size *
+    4. object_type_of data
+39. What will be the capacity of table with metadata of buckets for S3 if we have 1 million customers, each customers owns 10 buckets and meta for 1 buckets takes 1 KB
+    1. 10 GB
+    2. 10 TB
+    3. 3 GB
+40. What we can use to correctness verification object transfer in S3
+    1. checksum
+    2. filesize
+    3. file name and file type
+41. 
+
