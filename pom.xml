@@ -43,8 +43,78 @@
 <!--            </exclusions>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->
-
-
     </dependencies>
+
+
+    <build>
+    <pluginManagement>
+    <plugins>
+    <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <preparationGoals>clean -PRPM</preparationGoals>
+        </configuration>
+    </plugin>
+<!--    <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-resources-plugin</artifactId>-->
+<!--        <version>2.7</version>-->
+<!--        <configuration>-->
+<!--            <encoding>${project.build.sourceEncoding}</encoding>-->
+<!--        </configuration>-->
+<!--    </plugin>-->
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+    </plugin>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+            <archive>
+                <manifest>
+                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                </manifest>
+            </archive>
+        </configuration>
+    </plugin>
+    <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.2.2</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>compile</goal>
+                    <goal>testCompile</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <jvmArgs>
+                <jvmArg>-Xms64m</jvmArg>
+                <jvmArg>-Xmx1024m</jvmArg>
+            </jvmArgs>
+            <args>
+                <arg>-unchecked</arg>
+                <arg>-deprecation</arg>
+                <arg>-feature</arg>
+                <arg>-language:implicitConversions</arg>
+                <arg>-Xmax-classfile-name</arg>
+                <arg>140</arg>
+            </args>
+            <recompileMode>incremental</recompileMode>
+            <scalaVersion>2.11.8</scalaVersion>
+<!--            <encoding>${project.build.sourceEncoding}</encoding>-->
+        </configuration>
+    </plugin>
+    </plugins>
+    </pluginManagement>
+    </build>
 
 </project>

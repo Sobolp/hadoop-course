@@ -18,7 +18,7 @@ hdfs dfs -ls /user/vopolskiy_csv
 hadoop distcp s3://hadoop-luxoft/simple_source/employees_headers.csv /user/vopolski
 
 
-hadoop distcp -D dfs.replication=2 -update s3://test-123123123123/source/london_crime_by_lsoa.csv /user/vadimo
+hadoop distcp -D dfs.replication=2 -update s3://test-123123123123/source/london_crime_by_lsoa.csv /user/vaopolskiy
 
 
 # start the command
