@@ -21,10 +21,4 @@ object HDFS extends App {
 
   listStatus.toList
 
-
-  val tuples: Array[(String, String)] = Array(("a", "1"), ("b", "2"), ("c", "3"))
-  val tuples1: Array[(String, Some[String])] = tuples.map(x => x._1 -> Some(x._1))
-  val result: Map[String, Some[String]] = tuples1.toMap
-
-
 }
