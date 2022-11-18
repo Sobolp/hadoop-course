@@ -1,12 +1,12 @@
-# S3 integration
+# S3 integration (without Java, here HUE, OOZIE, MapReduce, Spark, Hive)
 1. Stage/Raw/Bronze data layer
 2. ODS/Silver data layer
 3. DDS/Golden data layer
 
-# Java Client API
-1. Find duplicate files
 
-2. Merge files
+
+# Java Client API (only Java client API)
+1. Merge files ()
 
     Given a source folders with a csv and in progress files
     ``` text
@@ -17,8 +17,8 @@
     drwxr-xr-x   - root supergroup          0 2020-12-12 00:35 /user/stage/date=2020-12-03
     ```
    
-    Write Java/Scala/Python application, which will clean data from folder /stage and write its to folder /ods according the rules
-   1. Structure of partition will be save
+    Write Java/Scala/Python application, which will clean data from folder /user/stage and write its to folder /your_name/ods according the rules
+   1. Structure of partition will be saved
    2. As a result there will be only one file, which contains all data from corresponding partition from /stage folder
 
     That is, if we have a folder /stage/date=2020-11-11 with files:
@@ -35,7 +35,10 @@
     which contains all data from files folder /stage/date=2020-11-11
 
    Constraints:
-   Avoid to using spark and hive
+   Avoid to using spark, Hive, Map Reduce
 
    Hints
     Use the file system API - [FileSystem API](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html)
+    
+
+2. Find duplicate files in HDFS 
