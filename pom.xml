@@ -109,7 +109,7 @@
                 <arg>140</arg>
             </args>
             <recompileMode>incremental</recompileMode>
-            <scalaVersion>2.11.8</scalaVersion>
+            <scalaVersion>2.13.2</scalaVersion>
 <!--            <encoding>${project.build.sourceEncoding}</encoding>-->
         </configuration>
     </plugin>

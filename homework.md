@@ -1,5 +1,15 @@
 # S3 integration (without Java, here HUE, OOZIE, MapReduce, Spark, Hive)
 1. Stage/Raw/Bronze data layer
+   Create a Schedule which will execute every hour copying data from S3 to HDFS.
+   Steps:
+   1. Write a hdfs commands which will create a new dir curr_date=22-28-11 and upload data to this dir in parallel mode
+   2. Create a sh files with commands and parameters and upload to HDFS 
+   3. Create a HUE workflow  with this file, try to execute it
+   4. Create a HUE schedule/coordinator
+
+Hint 1: Use an example [S3-dictcp-HDSF.sh](src/main/resources/hue/S3-dictcp-HDSF.sh)
+Hint 2: Use a video from chat HUEWorkflowCoordinator.mp4 and DistCpDemo.mp4
+
 2. ODS/Silver data layer
 3. DDS/Golden data layer
 
