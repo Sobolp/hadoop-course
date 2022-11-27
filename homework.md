@@ -38,7 +38,14 @@
    Avoid to using spark, Hive, Map Reduce
 
    Hints
-    Use the file system API - [FileSystem API](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html)
-    
-
+    - Use the file system API - [FileSystem API](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html)
+    - CREATE TARGET FILE 
+    `val fileOutputStream = hdfs.create(new Path("/user/ods/date=2020-12-03/part-0000.csv"))`
+    - OPEN SOURCE FILE
+    `val fileInputStream = hdfs.open(new Path("/user/stage/date=2020-12-03/part-0000.csv"))`
+    - COPY DATA FROM SOURCE TO TARGET
+    `IOUtils.copyBytes(fileInputStream, fileOutputStream, 4096, true)`
+    `fileOutputStream.close()`
+    `fileInputStream.close()`
+   
 2. Find duplicate files in HDFS 
