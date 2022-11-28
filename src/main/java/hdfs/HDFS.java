@@ -25,16 +25,16 @@ public class HDFS {
                 .map(FileStatus::getPath)
                 .forEach(System.out::println);
 
-        FSDataOutputStream fileOutputStream = hdfs.create(new Path("/user/ods/date=2020-12-03/part-0000.csv"));
-        FSDataInputStream fileInputStream = hdfs.open(new Path("/user/stage/date=2020-12-03/part-0000.csv"));
-        IOUtils.copyBytes(fileInputStream, fileOutputStream, 4096, true);
+        String newFile = "/user/vopolski/ods/part-0000.csv";
+        Path newPath = new Path(newFile);
 
-        fileOutputStream.close();
-        fileInputStream.close();
+        if (!hdfs.exists(newPath)) hdfs.createNewFile(newPath);
 
-
-        System.out.println("Test");
-
+        FSDataInputStream inputStream = hdfs.open(new Path("/user/stage/date=2020-12-03/part-0000.csv"));
+        FSDataOutputStream outputStream = hdfs.append(newPath);
+        IOUtils.copyBytes(inputStream, outputStream, 4096, true);
+        inputStream.close();
+        outputStream.close();
 
     }
 }
