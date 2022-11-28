@@ -11,7 +11,20 @@ object HDFS extends App {
   val hdfs: FileSystem = FileSystem.get(conf)
   val fromPath = new Path("/")
   val listStatus = hdfs.listStatus(fromPath)
-  listStatus.filter(_.isDirectory).map(_.getPath).foreach(println)
+  listStatus.filter(_.isDirectory).map(_.getPath)
+    .foreach{ path =>
+//      1 create new path in ods target folder if not exists
+//      2 create new file in new folder if not exists or if file size reaches the limit
+//      3 adding nested loop  & add filtering for .inprogress
+//      4 in nested loop read and append all files from the path
+//      close the resoures
+
+      //
+//      add logs
+//      add config
+//      add try catch
+//      variab
+    }
 
   val newFile = s"/user/vopolski/ods/part-0000.csv"
   val newPath = new Path(newFile)
