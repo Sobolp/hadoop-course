@@ -50,7 +50,16 @@ Hint 2: Use a video from chat HUEWorkflowCoordinator.mp4 and DistCpDemo.mp4
    Hints
     - Use the file system API - [FileSystem API](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html)
     - CREATE TARGET FILE 
-    `val fileOutputStream = hdfs.create(new Path("/user/ods/date=2020-12-03/part-0000.csv"))`
+    `import org.apache.hadoop.conf._
+      import org.apache.hadoop.fs._
+      import org.apache.hadoop.conf._
+      import org.apache.hadoop.hdfs.DistributedFileSystem`
+
+   `import org.apache.hadoop.io.IOUtils
+   val conf             = new Configuration()
+   val hdfs: FileSystem = FileSystem.get(conf)`
+
+    - `val fileOutputStream = hdfs.create(new Path("/user/ods/date=2020-12-03/part-0000.csv"))`
     - OPEN SOURCE FILE
     `val fileInputStream = hdfs.open(new Path("/user/stage/date=2020-12-03/part-0000.csv"))`
     - COPY DATA FROM SOURCE TO TARGET
